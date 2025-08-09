@@ -3,3 +3,9 @@ langchain-community
 sentence-transformers
 chromadb
 transformers
+llama-cpp-python
+langchain-chroma
+langchain-huggingface
+tokenizers
+fastapi
+uvicorn

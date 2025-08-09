@@ -1,8 +1,16 @@
+from transformers.pipelines import pipeline
+from config import Config
+
+
 class QueryRouter:
-    def __init__(self, plugin_manager):
-        self.plugin_manager = plugin_manager
+    def __init__(self):
+        self.classifier = pipeline(
+            "zero-shot-classification",
+            model="MoritzLaurer/deberta-v3-base-zeroshot-v2.0",
+            device_map="auto",
+        )
 
     def route(self, query: str) -> str:
-        if self.plugin_manager.get_plugin(query):
-            return "plugin"
-        return "general"
+        candidate_labels = ["general knowledge", "calculation", "document retrieval"]
+        result = self.classifier(query, candidate_labels)
+        return result["labels"][0]
